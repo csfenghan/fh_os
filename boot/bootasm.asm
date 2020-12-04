@@ -1,5 +1,8 @@
-[bits 16]
 
+extern bootmain
+
+[bits 16]
+global boot_start
 boot_start:
 	cli    ;关闭中断
 	
@@ -16,12 +19,12 @@ boot_start:
     out 0x92,al                 
 
 	;加载gdt表，进入保护模式
-	lgdt [0x7c00+gdt_config]
+	lgdt [gdt_config]
 	mov eax,cr0
 	or eax,0x01
 	mov cr0,eax
 
-	jmp dword 0x08:protect_mode_start+0x7c00
+	jmp dword 0x08:protect_mode_start
 	
 [bits 32]
 protect_mode_start:
@@ -33,10 +36,9 @@ protect_mode_start:
 	mov fs,ax
 	mov gs,ax
 	mov es,ax
+	mov esp,0x7c00
 		
-	mov byte [0xb8000],'H'
-	mov byte [0xb8001],0x07
-	
+	call bootmain
 
 spin:jmp $		
 
@@ -59,6 +61,3 @@ gdt_config:
 	dw gdt_config-gdt-1
 	dd 0x7c00+gdt
 
-;设置末尾
-	times 510-($-$$) db 0
-	dw 0xaa55

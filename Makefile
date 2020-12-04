@@ -1,4 +1,5 @@
 CC=gcc
+LD=ld
 MAKE=-make -C
 ASM=nasm
 
@@ -8,14 +9,17 @@ ROOT_DIR=$(shell pwd)
 SUB_DIR=boot kernel 
 IMAGE=kernel.img
 
-#向子目录的makefile输出
-export CC ROOT_DIR OBJ_DIR
+#配置
+C_FLAGS=-Werror -I$(ROOT_DIR) -m32 -fno-builtin
+V=@
 
-#构建目标
+#向子目录的makefile输出
+export CC LD C_FLAGS ROOT_DIR OBJ_DIR V
+
 all:$(SUB_DIR) 
-	#构建磁盘
-	dd if=/dev/zero of=$(OBJ_DIR)/$(IMAGE) count=10000 2>/dev/null
-	dd if=$(OBJ_DIR)/boot/bootasm.o of=$(OBJ_DIR)/$(IMAGE) conv=notrunc 2>/dev/null
+	$(V) dd if=/dev/zero of=$(OBJ_DIR)/$(IMAGE) count=10000 2>/dev/null
+	$(V) dd if=boot/StartSector of=$(OBJ_DIR)/$(IMAGE) conv=notrunc 2>/dev/null
+	$(V) dd if=$(OBJ_DIR)/boot/boot of=$(OBJ_DIR)/$(IMAGE) bs=510 conv=notrunc 2>/dev/null
 
 #迭代构建子目录的目标
 $(SUB_DIR):not_use
