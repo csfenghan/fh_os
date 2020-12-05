@@ -8,7 +8,7 @@ OBJ=$(OUTPUT_DIR)/bootasm.o $(OUTPUT_DIR)/bootmain.o
 all:$(OBJ)
 	$(V) $(LD) -m elf_i386 -Ttext 0x7c00  -e boot_start \
 			-o $(OUTPUT_DIR)/boot.out $^
-	$(V) objcopy -O binary -j .text  $(OUTPUT_DIR)/boot.out boot
+	$(V) objcopy -O binary -j .text  -S $(OUTPUT_DIR)/boot.out boot
 	$(V) mv boot $(OUTPUT_DIR)/
 
 $(OUTPUT_DIR)/%.o:%.asm
