@@ -2,9 +2,16 @@
 extern bootmain
 global boot_start
 
+;gdt的起始地址在0x7e00处
 gdt_base equ 0x7e00
+
+;lgdt的参数保存在0x7f00处
 gdt_config equ 0x7f00
+
+;一定要加，否则在生成32位的elf文件后会导致莫名其妙的错误！
 [bits 16]
+
+global boot_start
 boot_start:
 	cli    ;关闭中断
 	
@@ -35,6 +42,7 @@ boot_start:
 
 	mov word [gdt_config],0x17
 	mov dword [gdt_config+2],gdt_base
+
 	;加载gdt表，进入保护模式
 	lgdt [gdt_config]
 	mov eax,cr0
@@ -49,17 +57,14 @@ protect_mode_start:
 	;设置选择子
 	mov ax,0x10
 	mov ds,ax
-	;mov ss,ax
-	;mov fs,ax
-	;mov gs,ax
-	;mov es,ax
-	;mov esp,0x7c00
-	mov byte [0xb8000],"A"
-	mov byte [0xb8001],0x07
-	mov byte [0xb8002],"!"
-	mov byte [0xb8003],0x07
+	mov ss,ax
+	mov fs,ax
+	mov gs,ax
+	mov es,ax
+	mov esp,0x7c00
 		
-	;call bootmain
+	;调用c函数进行下一步任务	
+	call bootmain
 
 spin:jmp $		
 
