@@ -9,7 +9,8 @@ void load_from_disk(uint32_t sector,uint32_t paddr,uint8_t count);
 
 int bootmain()
 {
-    
+    //load_from_disk(2,0x100000,1);
+	while(1);
 		
 }
 
