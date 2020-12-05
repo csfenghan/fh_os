@@ -10,7 +10,7 @@ SUB_DIR=boot kernel
 IMAGE=kernel.img
 
 #配置
-C_FLAGS=-Werror -I$(ROOT_DIR) -m32 -fno-builtin
+C_FLAGS=-Werror -I$(ROOT_DIR) -m32 -fno-builtin -nostdinc
 V=@
 
 #向子目录的makefile输出

@@ -1,9 +1,10 @@
 
 extern bootmain
 global boot_start
+
 gdt_base equ 0x7e00
 gdt_config equ 0x7f00
-
+[bits 16]
 boot_start:
 	cli    ;关闭中断
 	
@@ -55,6 +56,8 @@ protect_mode_start:
 	;mov esp,0x7c00
 	mov byte [0xb8000],"A"
 	mov byte [0xb8001],0x07
+	mov byte [0xb8002],"!"
+	mov byte [0xb8003],0x07
 		
 	;call bootmain
 
