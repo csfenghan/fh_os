@@ -1,0 +1,122 @@
+
+bootmain.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <inb>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	89 7d ec             	mov    %edi,-0x14(%rbp)
+   7:	8b 45 ec             	mov    -0x14(%rbp),%eax
+   a:	89 c2                	mov    %eax,%edx
+   c:	ec                   	in     (%dx),%al
+   d:	88 45 ff             	mov    %al,-0x1(%rbp)
+  10:	0f b6 45 ff          	movzbl -0x1(%rbp),%eax
+  14:	5d                   	pop    %rbp
+  15:	c3                   	retq   
+
+0000000000000016 <insw>:
+  16:	55                   	push   %rbp
+  17:	48 89 e5             	mov    %rsp,%rbp
+  1a:	89 7d fc             	mov    %edi,-0x4(%rbp)
+  1d:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  21:	89 55 f8             	mov    %edx,-0x8(%rbp)
+  24:	8b 55 fc             	mov    -0x4(%rbp),%edx
+  27:	48 8b 4d f0          	mov    -0x10(%rbp),%rcx
+  2b:	8b 45 f8             	mov    -0x8(%rbp),%eax
+  2e:	48 89 ce             	mov    %rcx,%rsi
+  31:	48 89 f7             	mov    %rsi,%rdi
+  34:	89 c1                	mov    %eax,%ecx
+  36:	fc                   	cld    
+  37:	f2 66 6d             	repnz insw (%dx),%es:(%rdi)
+  3a:	89 c8                	mov    %ecx,%eax
+  3c:	48 89 fe             	mov    %rdi,%rsi
+  3f:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  43:	89 45 f8             	mov    %eax,-0x8(%rbp)
+  46:	90                   	nop
+  47:	5d                   	pop    %rbp
+  48:	c3                   	retq   
+
+0000000000000049 <outb>:
+  49:	55                   	push   %rbp
+  4a:	48 89 e5             	mov    %rsp,%rbp
+  4d:	89 7d fc             	mov    %edi,-0x4(%rbp)
+  50:	89 f0                	mov    %esi,%eax
+  52:	88 45 f8             	mov    %al,-0x8(%rbp)
+  55:	0f b6 45 f8          	movzbl -0x8(%rbp),%eax
+  59:	8b 55 fc             	mov    -0x4(%rbp),%edx
+  5c:	ee                   	out    %al,(%dx)
+  5d:	90                   	nop
+  5e:	5d                   	pop    %rbp
+  5f:	c3                   	retq   
+
+0000000000000060 <bootmain>:
+  60:	f3 0f 1e fa          	endbr64 
+  64:	55                   	push   %rbp
+  65:	48 89 e5             	mov    %rsp,%rbp
+  68:	eb fe                	jmp    68 <bootmain+0x8>
+
+000000000000006a <load_from_disk>:
+  6a:	f3 0f 1e fa          	endbr64 
+  6e:	55                   	push   %rbp
+  6f:	48 89 e5             	mov    %rsp,%rbp
+  72:	48 83 ec 10          	sub    $0x10,%rsp
+  76:	89 7d fc             	mov    %edi,-0x4(%rbp)
+  79:	89 75 f8             	mov    %esi,-0x8(%rbp)
+  7c:	89 d0                	mov    %edx,%eax
+  7e:	88 45 f4             	mov    %al,-0xc(%rbp)
+  81:	90                   	nop
+  82:	bf f7 01 00 00       	mov    $0x1f7,%edi
+  87:	e8 74 ff ff ff       	callq  0 <inb>
+  8c:	0f b6 c0             	movzbl %al,%eax
+  8f:	25 88 00 00 00       	and    $0x88,%eax
+  94:	83 f8 08             	cmp    $0x8,%eax
+  97:	75 e9                	jne    82 <load_from_disk+0x18>
+  99:	0f b6 45 f4          	movzbl -0xc(%rbp),%eax
+  9d:	89 c6                	mov    %eax,%esi
+  9f:	bf f2 01 00 00       	mov    $0x1f2,%edi
+  a4:	e8 a0 ff ff ff       	callq  49 <outb>
+  a9:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  ac:	0f b6 c0             	movzbl %al,%eax
+  af:	89 c6                	mov    %eax,%esi
+  b1:	bf f3 01 00 00       	mov    $0x1f3,%edi
+  b6:	e8 8e ff ff ff       	callq  49 <outb>
+  bb:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  be:	c1 e8 08             	shr    $0x8,%eax
+  c1:	0f b6 c0             	movzbl %al,%eax
+  c4:	89 c6                	mov    %eax,%esi
+  c6:	bf f4 01 00 00       	mov    $0x1f4,%edi
+  cb:	e8 79 ff ff ff       	callq  49 <outb>
+  d0:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  d3:	c1 e8 10             	shr    $0x10,%eax
+  d6:	0f b6 c0             	movzbl %al,%eax
+  d9:	89 c6                	mov    %eax,%esi
+  db:	bf f5 01 00 00       	mov    $0x1f5,%edi
+  e0:	e8 64 ff ff ff       	callq  49 <outb>
+  e5:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  e8:	c1 e8 18             	shr    $0x18,%eax
+  eb:	83 e0 0f             	and    $0xf,%eax
+  ee:	83 c8 e0             	or     $0xffffffe0,%eax
+  f1:	0f b6 c0             	movzbl %al,%eax
+  f4:	89 c6                	mov    %eax,%esi
+  f6:	bf f6 01 00 00       	mov    $0x1f6,%edi
+  fb:	e8 49 ff ff ff       	callq  49 <outb>
+ 100:	90                   	nop
+ 101:	bf f7 01 00 00       	mov    $0x1f7,%edi
+ 106:	e8 f5 fe ff ff       	callq  0 <inb>
+ 10b:	0f b6 c0             	movzbl %al,%eax
+ 10e:	25 88 00 00 00       	and    $0x88,%eax
+ 113:	83 f8 08             	cmp    $0x8,%eax
+ 116:	75 e9                	jne    101 <load_from_disk+0x97>
+ 118:	0f b6 45 f4          	movzbl -0xc(%rbp),%eax
+ 11c:	c1 e0 05             	shl    $0x5,%eax
+ 11f:	8b 55 f8             	mov    -0x8(%rbp),%edx
+ 122:	48 89 d1             	mov    %rdx,%rcx
+ 125:	89 c2                	mov    %eax,%edx
+ 127:	48 89 ce             	mov    %rcx,%rsi
+ 12a:	bf f0 01 00 00       	mov    $0x1f0,%edi
+ 12f:	e8 e2 fe ff ff       	callq  16 <insw>
+ 134:	90                   	nop
+ 135:	c9                   	leaveq 
+ 136:	c3                   	retq   

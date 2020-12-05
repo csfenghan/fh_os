@@ -10,12 +10,17 @@ SUB_DIR=boot kernel
 IMAGE=kernel.img
 
 #配置
-C_FLAGS=-Werror -I$(ROOT_DIR) -m32 -fno-builtin -nostdinc
+C_FLAGS=-Werror -g -m32 -O2 -fno-builtin -nostdinc \
+		-static -fno-omit-frame-pointer -std=gnu99\
+		-I$(ROOT_DIR)
+LD_FLAGS=-Bstatic -m elf_i386
 V=@
 
 #向子目录的makefile输出
-export CC LD C_FLAGS ROOT_DIR OBJ_DIR V
+export CC LD C_FLAGS LD_FLAGS ROOT_DIR OBJ_DIR V
 
+
+#构建目标
 all:$(SUB_DIR) 
 	$(V) dd if=/dev/zero of=$(OBJ_DIR)/$(IMAGE) count=10000 2>/dev/null
 	$(V) dd if=boot/StartSector of=$(OBJ_DIR)/$(IMAGE) conv=notrunc 2>/dev/null
