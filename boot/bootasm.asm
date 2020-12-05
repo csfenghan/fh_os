@@ -22,20 +22,20 @@ boot_start:
 	;设置gdt表
 	;空描述符
 	mov dword [gdt_base],0x00		
-	mov dword [gdt_base+4],0x00		
+	mov dword [gdt_base+0x04],0x00		
 
 	;代码段描述符
-	mov dword [gdt_base+8],0x0000ffff
-	mov dword [gdt_base+12],0x00cf9a00
+	mov dword [gdt_base+0x08],0x0000ffff
+	mov dword [gdt_base+0x0c],0x00cf9a00
 
 	;数据段描述符
-	mov dword [gdt_base+16],0x0000ffff
-	mov dword [gdt_base+24],0x00cf9200
+	mov dword [gdt_base+0x10],0x0000ffff
+	mov dword [gdt_base+0x14],0x00cf9200
 
-	mov word [gdt_config],23
+	mov word [gdt_config],0x17
 	mov dword [gdt_config+2],gdt_base
 	;加载gdt表，进入保护模式
-	lgdt [cs:gdt_config]
+	lgdt [gdt_config]
 	mov eax,cr0
 	or eax,0x01
 	mov cr0,eax
@@ -53,6 +53,8 @@ protect_mode_start:
 	;mov gs,ax
 	;mov es,ax
 	;mov esp,0x7c00
+	mov byte [0xb8000],"A"
+	mov byte [0xb8001],0x07
 		
 	;call bootmain
 
