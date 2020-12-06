@@ -1,6 +1,6 @@
 /*内核链接控制*/
 
-OUTPUT_FORMAT("elf32-i386")
+OUTPUT_FORMAT("elf32-i386","elf32-i386","elf32-i386")
 OUTPUT_ARCH(i386)
 ENTRY(kernel_entry)
 
@@ -23,16 +23,14 @@ SECTIONS
     /*加入debug信息*/
     .stab :{
         PROVIDE(__STAB_BEGIN__ = .);
-        *(.stab);
+        *(.stab)
         PROVIDE(__STAB_END__ = .);
-        BYTE(0)     /*强迫链接器给这个节分配空间*/
     }
 
 	.stabstr :{
         PROVIDE(__STABSTR_BEGIN__ = .);
-        *(.stabstr);
+        *(.stabstr)
         PROVIDE(__STABSTR_END__ = .);
-		BYTE(0)
 	}
 
     /*使数据段页对其*/
@@ -46,7 +44,6 @@ SECTIONS
     .bss :{
         *(.bss)
         PROVIDE(kernel_end = .);
-        BYTE(0)
     }
 
     /DISCARD/ :{

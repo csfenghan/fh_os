@@ -3,12 +3,15 @@
 #内核入口为kernel_entry
 
 OUTPUT_DIR=$(ROOT_DIR)/$(OBJ_DIR)/kernel
-OBJ:=$(OUTPUT_DIR)/$(patsubst %.asm,%.o,$(wildcard *.asm))
-OBJ+=$(OUTPUT_DIR)/$(patsubst %.c,%.o,$(wildcard *.c))
+SOURCE_FILES=kernel_entry.asm\
+			 main.c
+
+OBJ_FILES:=$(patsubst %.asm,$(OUTPUT_DIR)/%.o,$(SOURCE_FILES))
+OBJ_FILES:=$(patsubst %.c,$(OUTPUT_DIR)/%.o,$(OBJ_FILES))
 LD_FILE=kernel.ld
 
-all:$(OBJ)
-	$(V) $(LD) $(LD_FLAGS) -T $(LD_FILE) $^ -o $(OUTPUT_DIR)/kernel
+all:$(OBJ_FILES)
+	$(V) $(LD) $(LD_FLAGS)  -T $(LD_FILE) $^ -o $(OUTPUT_DIR)/kernel
 	$(V) $(OBJDUMP) -S $(OUTPUT_DIR)/kernel > $(OUTPUT_DIR)/kernel.asm
 
 
