@@ -13,14 +13,20 @@ gdt_config equ 0x7f00
 
 global boot_start
 boot_start:
-	cli    ;关闭中断
-	
+
 	;对寄存器清零
 	xor ax,ax
 	mov ds,ax
 	mov ss,ax
 	mov fs,ax
 	mov gs,ax
+
+	;清一下屏幕
+	mov ax,0x600
+	mov bx,0x700
+	mov cx,0
+	mov dx,0x184f
+	int 0x10
 
 	;开启A20端口
     in al,0x92                      
@@ -44,6 +50,7 @@ boot_start:
 	mov dword [gdt_config+2],gdt_base
 
 	;加载gdt表，进入保护模式
+	cli    ;关闭中断
 	lgdt [gdt_config]
 	mov eax,cr0
 	or eax,0x01
@@ -65,6 +72,19 @@ protect_mode_start:
 		
 	;调用c函数进行下一步任务	
 	call bootmain
+
+	mov byte [0xb8000],'E'
+	mov byte [0xb8001],0x7
+	mov byte [0xb8002],'R'
+	mov byte [0xb8003],0x7
+	mov byte [0xb8004],'R'
+	mov byte [0xb8005],0x7
+	mov byte [0xb8006],'O'
+	mov byte [0xb8007],0x7
+	mov byte [0xb8008],'R'
+	mov byte [0xb8009],0x7
+	mov byte [0xb800a],'!'
+	mov byte [0xb800b],0x7
 
 spin:jmp $		
 
