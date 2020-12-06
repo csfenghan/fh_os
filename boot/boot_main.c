@@ -5,11 +5,10 @@
 #include "include/elf.h"
 #include "include/x86.h"
 
-void load_from_disk(uint32_t sector,uint32_t paddr,uint8_t count);
+void LoadDisk(uint32_t sector,uint32_t paddr,uint8_t count);
 
 int bootmain()
 {
-    //load_from_disk(2,0x100000,1);
 	while(1);
 		
 }
@@ -31,7 +30,7 @@ int bootmain()
         入和写入数据。
         (5)0x1f1是错误寄存器，保存错误原因
 */
-void load_from_disk(uint32_t sector,uint32_t paddr,uint8_t count)
+void ReadDisk(uint32_t sector,uint32_t paddr,uint8_t count)
 {
     //为了省事，干脆就默认count小于255吧，反正内核也不会那么大
     while((inb(0x1f7)&0x88)!=0x08); //wait
