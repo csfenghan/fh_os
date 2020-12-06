@@ -1,7 +1,9 @@
 CC=gcc
 LD=ld
-MAKE=-make -C
+MAKE=make -C
 ASM=nasm
+OBJDUMP=objdump
+OBJCOPY=objcopy
 
 #根目录、子文件夹目录和输出
 OBJ_DIR=obj
@@ -17,7 +19,8 @@ LD_FLAGS=-Bstatic -m elf_i386
 V=@
 
 #向子目录的makefile输出
-export CC LD C_FLAGS LD_FLAGS ROOT_DIR OBJ_DIR V
+export CC LD MAKE ASM OBJDUMP OBJCOPY \
+		OBJ_DIR ROOT_DIR C_FLAGS LD_FLAGS V
 
 
 #构建目标
@@ -25,6 +28,7 @@ all:$(SUB_DIR)
 	$(V) dd if=/dev/zero of=$(OBJ_DIR)/$(IMAGE) count=10000 2>/dev/null
 	$(V) dd if=boot/StartSector of=$(OBJ_DIR)/$(IMAGE) conv=notrunc 2>/dev/null
 	$(V) dd if=$(OBJ_DIR)/boot/boot of=$(OBJ_DIR)/$(IMAGE) bs=510 conv=notrunc 2>/dev/null
+	$(V) dd if=$(OBJ_DIR)/kernel/kernel of=$(OBJ_DIR)/$(IMAGE) bs=512 seek=1 conv=notrunc 2>/dev/null
 
 #迭代构建子目录的目标
 $(SUB_DIR):not_use
