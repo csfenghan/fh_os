@@ -3,10 +3,12 @@
 #内核入口为kernel_entry
 
 OUTPUT_DIR=$(ROOT_DIR)/$(OBJ_DIR)/kernel
-SOURCE_FILES=kernel_entry.asm\
-			 main.c
+SOURCE_FILES=kernel_entry.S\
+			 entry_pgdir_init.c\
+			 main.c\
 
-OBJ_FILES:=$(patsubst %.asm,$(OUTPUT_DIR)/%.o,$(SOURCE_FILES))
+
+OBJ_FILES:=$(patsubst %.S,$(OUTPUT_DIR)/%.o,$(SOURCE_FILES))
 OBJ_FILES:=$(patsubst %.c,$(OUTPUT_DIR)/%.o,$(OBJ_FILES))
 LD_FILE=kernel.ld
 
@@ -16,9 +18,9 @@ all:$(OBJ_FILES)
 
 
 ##################################################
-$(OUTPUT_DIR)/%.o:%.asm
+$(OUTPUT_DIR)/%.o:%.S
 	$(V) mkdir -p $(OUTPUT_DIR)
-	$(V) $(ASM) -f elf $^ -o $@
+	$(V) $(CC) $(C_FLAGS) -c $^ -o $@
 
 $(OUTPUT_DIR)/%.o:%.c
 	$(V) mkdir -p $(OUTPUT_DIR)
