@@ -12,11 +12,12 @@ void bootmain()
     Elf32_Header *elf_header;
     Elf32_Program_Header *program_header;
 
-    /*这里有一个很奇怪的错误，如果吧ReadDisk中的elf_header换成0x100000的话,
-    则读取后elf_header->e_magic值为0x100000？？然后就无法继续执行。明明
-    elf_header的值就是0x100000，这里有什么不一样吗？？*/
+    /*这里有一个很奇怪的错误，如果吧ReadDisk中的elf_header换成0x7f00的话,
+    则读取后elf_header->e_magic值为0x7f00？？然后就无法继续执行。明明
+    elf_header的值就是0x7f00，这里有什么不一样吗？？*/
 
-    elf_header=(Elf32_Header *)0x10000;
+    /*把elf头加载到0x7f00处*/
+    elf_header=(Elf32_Header *)0x7f00;
     ReadDisk(1,(uint32_t)elf_header,1);
 
     /*判断是否是elf文件*/
