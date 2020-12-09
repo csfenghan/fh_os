@@ -13,7 +13,6 @@ __attribute__((__aligned__(PAGE_SIZE)))
 pde_t entry_page_dir[PTE_NUMBER]={
     //将[0,4MB)映射到[0,4MB]
     [0]=KERNEL_TO_PHY((vaddr_t)entry_page_table)+PT_P,
-
     //将[KERNEL_BASE,KERNEL_BASE+4MB)映射到[0,4MB)
     [PDE(KERNEL_BASE)]=KERNEL_TO_PHY((vaddr_t)entry_page_table)+PT_P+PT_W,
 };
@@ -27,7 +26,7 @@ void entry_pgdir_init()
 {
     paddr_t pa=0;
     for(uint32_t i=0;i<1024;i++){
-        entry_page_table[i]=pa|PT_P|PT_W;
+        KERNEL_TO_PHY(entry_page_table)[i]=(pa|PT_P|PT_W);
         pa+=0x1000;
     }
 }

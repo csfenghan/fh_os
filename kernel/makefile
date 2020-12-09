@@ -4,7 +4,6 @@
 
 OUTPUT_DIR=$(ROOT_DIR)/$(OBJ_DIR)/kernel
 SOURCE_FILES=kernel_entry.S\
-			 entry_pgdir_init.c\
 			 main.c\
 
 

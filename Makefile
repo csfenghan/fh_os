@@ -10,9 +10,10 @@ OBJ_DIR=obj
 ROOT_DIR=$(shell pwd)
 SUB_DIR=boot kernel 
 IMAGE=kernel.img
+QEMU=qemu-system-i386
 
 #配置
-C_FLAGS=-Werror -g -m32 -O2 -fno-builtin -nostdinc \
+C_FLAGS=-Werror -g -m32 -O1 -fno-builtin -nostdinc \
 		-static -fno-omit-frame-pointer -std=gnu99\
 		-I$(ROOT_DIR)
 LD_FLAGS=-Bstatic -m elf_i386
@@ -42,7 +43,9 @@ clean:
 	rm -rf $(OBJ_DIR)
 
 qemu:
-	qemu-system-i386 $(OBJ_DIR)/$(IMAGE) 
+	$(QEMU) $(OBJ_DIR)/$(IMAGE) 
+qemu-nox:
+	$(QEMU) -nographic $(OBJ_DIR)/$(IMAGE) 
 
 qemu-gdb:
-	qemu-system-i386 $(OBJ_DIR)/$(IMAGE) -gdb tcp::1234 -S
+	$(QEMU) -nographic $(OBJ_DIR)/$(IMAGE) -gdb tcp::1234 -S
