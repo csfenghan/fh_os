@@ -1,23 +1,25 @@
-CC=gcc
-LD=ld
-MAKE=make -C
-ASM=nasm
-OBJDUMP=objdump
-OBJCOPY=objcopy
+CC:=gcc
+LD:=ld
+MAKE:=make -C
+ASM:=nasm
+OBJDUMP:=objdump
+OBJCOPY:=objcopy
 
 #根目录、子文件夹目录和输出
-OBJ_DIR=obj
-ROOT_DIR=$(shell pwd)
-SUB_DIR=boot kernel 
-IMAGE=kernel.img
-QEMU=qemu-system-i386
+OBJ_DIR:=obj
+ROOT_DIR:=$(shell pwd)
+SUB_DIR:=boot kernel 
+IMAGE:=kernel.img
+QEMU:=qemu-system-i386
+GDBPORT=1234
 
 #配置
-C_FLAGS=-Werror -g -m32 -O1 -fno-builtin -nostdinc \
+C_FLAGS:=-Werror -g -m32 -O1 -fno-builtin -nostdinc \
 		-static -fno-omit-frame-pointer -std=gnu99\
 		-I$(ROOT_DIR)
-LD_FLAGS=-Bstatic -m elf_i386
+LD_FLAGS:=-Bstatic -m elf_i386
 V=@
+QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT)
 
 #向子目录的makefile输出
 export CC LD MAKE ASM OBJDUMP OBJCOPY \
@@ -42,10 +44,14 @@ not_use:
 clean:
 	rm -rf $(OBJ_DIR)
 
-qemu:
-	$(QEMU) $(OBJ_DIR)/$(IMAGE) 
-qemu-nox:
-	$(QEMU) -nographic $(OBJ_DIR)/$(IMAGE) 
+qemu:$(OBJ_DIR)/$(IMAGE)
+	$(QEMU) $(QEMU_FLAGS) 
 
-qemu-gdb:
-	$(QEMU) -nographic $(OBJ_DIR)/$(IMAGE) -gdb tcp::1234 -S
+qemu-gdb:$(OBJ_DIR)/$(IMAGE)
+	$(QEMU) $(QEMU_FLAGS) -S
+
+qemu-nox:$(OBJ_DIR)/$(IMAGE)
+	$(QEMU) $(QEMU_FLAGS) -nographic
+
+qemu-nox-gdb:$(OBJ_DIR)/$(IMAGE)
+	$(QEMU) $(QEMU_FLAGS) -nographic -S

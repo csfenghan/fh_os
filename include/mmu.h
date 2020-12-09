@@ -7,8 +7,15 @@
 
 
 /*内核布局的定义*/
+//定义页信息
+#define PAGE_SIZE 4096  //页大小
+#define PTE_NUMBER 1024 //一页的PTE数目
+
 //内核的基地址
 #define KERNEL_BASE 0xf0000000  
+
+//栈的大小
+#define KERNEL_STACK_SIZE (1024*PAGE_SIZE)
 
 //给出从内核空间和物理空间的变换
 #define KERNEL_TO_PHY(addr) ((addr)-KERNEL_BASE)
