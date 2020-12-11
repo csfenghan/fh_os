@@ -5,6 +5,7 @@
 OUTPUT_DIR=$(ROOT_DIR)/$(OBJ_DIR)/kernel
 SOURCE_FILES=kernel_entry.S\
 			 main.c\
+			 mem.c\
 
 
 OBJ_FILES:=$(patsubst %.S,$(OUTPUT_DIR)/%.o,$(SOURCE_FILES))

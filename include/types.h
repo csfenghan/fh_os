@@ -21,4 +21,10 @@ typedef uint32_t paddr_t;
 typedef uint32_t pde_t;
 typedef uint32_t pte_t;
 
+
+/////////////////////////////////////////////////////
+#define ROUND_UP(x,n) ()
+
+#define ROUND_DOWN(x,n) ()
+
 #endif

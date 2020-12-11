@@ -15,7 +15,7 @@
 #define KERNEL_BASE 0xf0000000  
 
 //栈的大小
-#define KERNEL_STACK_SIZE (1024*PAGE_SIZE)
+#define KERNEL_STACK_SIZE (10*PAGE_SIZE)
 
 //给出从内核空间和物理空间的变换
 #define KERNEL_TO_PHY(addr) ((addr)-KERNEL_BASE)

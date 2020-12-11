@@ -38,6 +38,7 @@ SECTIONS
 
     .data :{
         *(.data)
+		/*这里给出data段的结尾,方便后续分配内存*/
         PROVIDE(data_end = .);
     }
 

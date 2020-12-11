@@ -10,7 +10,7 @@ OBJ_DIR:=obj
 ROOT_DIR:=$(shell pwd)
 SUB_DIR:=boot kernel 
 IMAGE:=kernel.img
-QEMU:=qemu-system-i386
+QEMU:=qemu-system-i386 
 GDBPORT=1234
 
 #配置
@@ -19,7 +19,7 @@ C_FLAGS:=-Werror -g -m32 -O1 -fno-builtin -nostdinc \
 		-I$(ROOT_DIR)
 LD_FLAGS:=-Bstatic -m elf_i386
 V=@
-QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT)
+QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 4G
 
 #向子目录的makefile输出
 export CC LD MAKE ASM OBJDUMP OBJCOPY \

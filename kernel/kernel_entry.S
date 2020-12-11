@@ -89,7 +89,7 @@ show:
     loop show
 
     #不知道为什么，，直接call会出错，用jmp就没事
-    jmp main
+    call main
 
 spin:
 	jmp spin
