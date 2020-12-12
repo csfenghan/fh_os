@@ -39,7 +39,7 @@ static void detect_mem_size()
 void free_page_init()
 {
     extern char *kernel_end;
-
+     
 }
 
 
@@ -47,6 +47,6 @@ void free_page_init()
 void mem_init()
 {
     detect_mem_size();
-
+     
 
 }

@@ -3,9 +3,12 @@
 */
 #include <kernel/mem.h>
 
+extern void print(char *);
+
 int main()
 {
-    mem_init();
-    while (1);
+    print("ehllo1ll");
+    print("abcdefo");
 	while(2);
+
 }

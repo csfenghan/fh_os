@@ -30,7 +30,7 @@ typedef uint32_t pte_t;
 }                        \
 )
 
-#define ROUND_UP(x,n) ( \
+#define ROUND_DOWN(x,n) ( \
 {                       \
     uint32_t _x=(uint32_t)(x);      \
     (typeof(x))((x)/(n)*(n));    \

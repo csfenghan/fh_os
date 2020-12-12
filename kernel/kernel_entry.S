@@ -103,7 +103,8 @@ spin:
 
 #要显示的消息
 message:
-    .ascii "Hello,fenghan!You have successfully Started kernel!"
+#    .ascii "Hello,fenghan!You have successfully Started kernel!"
+    .ascii "hello"
 len:
     .long len-message
 

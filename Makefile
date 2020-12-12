@@ -10,7 +10,8 @@ OBJ_DIR:=obj
 ROOT_DIR:=$(shell pwd)
 SUB_DIR:=boot kernel 
 IMAGE:=kernel.img
-QEMU:=qemu-system-i386 
+#QEMU:=qemu-system-i386 
+QEMU:=qemu-system-x86_64
 GDBPORT=1234
 
 #配置
