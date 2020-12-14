@@ -20,7 +20,7 @@ C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc \
 		-I$(ROOT_DIR)
 LD_FLAGS:=-Bstatic -m elf_i386
 V=@
-QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 4G
+QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
 
 #向子目录的makefile输出
 export CC LD MAKE ASM OBJDUMP OBJCOPY \
