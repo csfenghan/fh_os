@@ -8,7 +8,7 @@ SECTIONS
 {
     /*链接的起始地址，即VMA*/
     . =0xf0100000;
-    
+	PROVIDE(sss = .);    
     /*AT可以给定LMA地址*/
     .text :AT(0x100000){
         *(.text .stub .text.* .gnu.linkonce.t.*)
