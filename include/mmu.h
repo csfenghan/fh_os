@@ -14,16 +14,19 @@
 //内核的基地址
 #define KERNEL_BASE 0xf0000000  
 
+//基础的可用内存为0~640K
+#define BASE_MEM_LIMIT 0xA0000
+
+
+
 //栈的大小
 #define KERNEL_STACK_SIZE (10*PAGE_SIZE)
 
 //给出从内核空间和物理空间的变换
-#define KERNEL_TO_PHY(addr) ((addr)-KERNEL_BASE)
-#define PHY_TO_KERNEL(addr) ((addr)+KERNEL_BASE)
+#define KERNEL_TO_PHY(vaddr) ((vaddr)-KERNEL_BASE)
+#define PHY_TO_KERNEL(paddr) ((paddr)+KERNEL_BASE)
 
-//定义页信息
-#define PAGE_SIZE 4096  //页大小
-#define PTE_NUMBER 1024 //一页的PTE数目
+///////////////////////////////////////////////////////////////////
 
 /*下面定义的是mmu的信息*/
 //以下是x86的PDE和PTE的位的定义(简称PT(Page Table))

@@ -15,7 +15,7 @@ QEMU:=qemu-system-x86_64
 GDBPORT=1234
 
 #配置
-C_FLAGS:=-Werror -g -m32 -O1 -fno-builtin -nostdinc \
+C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc \
 		-static -fno-omit-frame-pointer -std=gnu99\
 		-I$(ROOT_DIR)
 LD_FLAGS:=-Bstatic -m elf_i386
