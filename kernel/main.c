@@ -7,8 +7,7 @@ extern void print(char *);
 
 int main()
 {
-    print("ehllo1ll");
-    print("abcdefo");
+    mem_init();
 	while(2);
 
 }

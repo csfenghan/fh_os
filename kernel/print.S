@@ -18,19 +18,25 @@ print:
     #第一个参数
     movl 0xc(%esp),%edi
     #第二个参数
+    movl 0x10(%esp),%esi
+
     movl $(BASE),%ebp
 
 show:
+    movl (curr_point),%ebx;
+
+    #取字符串，处理控制字符
     movb (%edi),%al
     cmpb %al,'\0'
     jz end
 
+next:
     #bx保存基址
-    movl (curr_point),%ebx;
     leal (%ebp,%ebx,2),%edx
     movb $0x07,%ah
     movw %ax,(%edx) 
 
+    #显示下一个字符
     incl %edi
     incl %ebx
     movl %ebx,(curr_point)

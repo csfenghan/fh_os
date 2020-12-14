@@ -5,6 +5,8 @@
     该文件定义了用到的各种类型
 */
 
+#define NULL 0
+
 //基本数据类型
 typedef char int8_t;
 typedef unsigned char uint8_t;
@@ -26,7 +28,7 @@ typedef uint32_t pte_t;
 #define ROUND_UP(x,n) (\
 {                       \
     uint32_t _x=(uint32_t)(x);      \
-    (typeof(x))((x)/(n)*(n)+(n));    \
+    (typeof(x))((_x)/(n)*(n)+(n));    \
 }                        \
 )
 
