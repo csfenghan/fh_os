@@ -37,8 +37,11 @@
 #define PT_CD 0x10  //cache disable(不清楚什么功能)
 #define PT_A 0x20    //accessed(不清楚。。。)
 #define PT_D 0x40   //dirty(只有在二级目录才有脏位，一级页目录该位无效)
-#define PT_PS 0x80  //在页目录里面表示page size，在页表(PTE)中是page table attribute index
+#define PT_PS 0x80  //在页目录里面表示page size，如果设置，则表示该页是4MB
 #define PT_G 0x100  //gobal page
+
+//寄存器设置
+#define CR4_PSE 0x10    //开启4MB超级页
 
 //virtual address分段
 #define PDE_SHIFT 22 //page directory的偏移
