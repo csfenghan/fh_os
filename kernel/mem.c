@@ -13,7 +13,8 @@
     2.0xf0100000~0Xf0101000:    [1MB,1MB+4KB]           内核代码段
     3.0xf0101000~kernel_end:    [1MB+4KB,kernel_end]    内核数据段,kernel_end由
                                                         链接器给出
-    4.kernel_end~                    [,]                这里保存物理页的分配信息
+    4.ROUND_UP(kernel_end)~    第一页保存内核的页目录，第二页开始第一个是free_page_list,
+    从第2个开始每一个结构对应一个物理页
 */
 
 void print(char *);
@@ -23,13 +24,15 @@ struct phy_page_info{
     struct phy_page_info *next; 
     uint32_t link;
 };
-static struct phy_page_info *free_page_head;   //空闲链表的头部
+static struct phy_page_info *free_page_head;   //空闲链表的头部,即第一个物理页
 static struct phy_page_info *free_page_list;    //空闲链表，指向下一个空闲页
 static pde_t *kernel_pgdir;    //内核页目录
+static uint32_t number_pages;   //实际的物理页数目
 
-//实际物理内存的页数，每页4kb
-static uint32_t number_pages;
+extern char kernel_end[];   //定义在kernel.ld中
+static char *next_free=(char *)kernel_end;   //指向先一个空闲的地址
 
+//////////////////////////////////////////////////////////////////
 //从struct page_info转换到对应的物理页地址
 #define PAGE_INFO_TO_PHY(page_info)   \
 ({   \
@@ -50,23 +53,23 @@ static void detect_mem_size()
     number_pages=1024*256; 
 }
 
-/*
-    function:初始化空闲链表
-        地址起始于ROUND_UP(kernel_end,PAGE_SIZE),前4个字节是free_page_list,
-        然后从free_page_head开始，每个结构体对应一个物理页
+//使用新的页表
+void kernel_pgdir_init()
+{
+    kernel_pgdir=(pde_t *)ROUND_UP((char *)kernel_end,PAGE_SIZE);
+}
 
-*/
-uint32_t xxx;
+//function:初始化空闲链表
 void free_page_init()
 {
     /*如果声明成extern char *kerenl_end，kernel_end的值则会被翻译成一个指针！！！
     但是如下声明则不会有错，声明成其他类型也是被当作一个指针，太奇怪了*/
-    extern char kernel_end[];
+    char *extend_start=(char *)(ROUND_UP((char *)kernel_end,PAGE_SIZE)+PAGE_SIZE); 
 
-    free_page_list=(struct phy_page_info *)ROUND_UP((char *)kernel_end,PAGE_SIZE); 
+    free_page_list=(struct phy_page_info *)(extend_start+4);
     free_page_list->link=-1;
     free_page_list->next=NULL;
-    free_page_head=(struct phy_page_info *)((uint32_t)free_page_list+4);
+    free_page_head=(struct phy_page_info *)(extend_start+8);
 
     //初始化空闲链表，将已分配的页跳过(这些页将永不释放)
     /*因为一开始内核只被分配了4MB的内存，这些内存无法存储过大的物理页结构，因此先按1G来计算*/
@@ -91,5 +94,4 @@ void mem_init()
 {
     detect_mem_size();  //检测实际可用的内存大小
     free_page_init();   //空闲链表初始化
-
 }
