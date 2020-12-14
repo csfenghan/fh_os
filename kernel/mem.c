@@ -47,7 +47,7 @@ static uint32_t number_pages;
 //检测实际可使用的物理内存大小
 static void detect_mem_size()
 {
-    number_pages=1024*1024; 
+    number_pages=1024*256; 
 }
 
 /*
@@ -65,11 +65,12 @@ void free_page_init()
 
     free_page_list=(struct phy_page_info *)ROUND_UP((char *)kernel_end,PAGE_SIZE); 
     free_page_list->link=-1;
+    free_page_list->next=NULL;
     free_page_head=(struct phy_page_info *)((uint32_t)free_page_list+4);
-    print("hello");
-    while(1);
+
     //初始化空闲链表，将已分配的页跳过(这些页将永不释放)
-    for(size_t i=1;i<number_pages;i++){
+    /*因为一开始内核只被分配了4MB的内存，这些内存无法存储过大的物理页结构，因此先按1G来计算*/
+    for(size_t i=0;i<number_pages;i++){
         if((i>BASE_MEM_LIMIT/PAGE_SIZE)&&
                 (i<(vaddr_t)KERNEL_TO_PHY(free_page_head+number_pages)/PAGE_SIZE)){
             free_page_head[i].next=NULL; 
