@@ -9,6 +9,7 @@
 /*内核布局的定义*/
 //定义页信息
 #define PAGE_SIZE 4096  //页大小
+#define PAGE_EXTEND_SIZE 0x400000   //超级页大小4MB
 #define PTE_NUMBER 1024 //一页的PTE数目
 
 //内核的基地址
@@ -16,8 +17,6 @@
 
 //基础的可用内存为0~640K
 #define BASE_MEM_LIMIT 0xA0000
-
-
 
 //栈的大小
 #define KERNEL_STACK_SIZE (10*PAGE_SIZE)

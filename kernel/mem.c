@@ -68,7 +68,7 @@ static void free_page_init()
     /*因为一开始内核只被分配了4MB的内存，这些内存无法存储过大的物理页结构，因此先按1G来计算*/
     for(size_t i=0;i<number_pages;i++){
         if((i>BASE_MEM_LIMIT/PAGE_SIZE)&&
-                (i<(vaddr_t)KERNEL_TO_PHY(free_page_head+number_pages)/PAGE_SIZE)){
+                (i<(vaddr_t)KERNEL_TO_PHY(KERNEL_BASE+PAGE_EXTEND_SIZE)/PAGE_SIZE)){
             free_page_head[i].next=NULL; 
             free_page_head[i].link=-1;
         }
@@ -105,14 +105,27 @@ static void phy_page_free(struct phy_page_info *page)
 
 //根据虚拟地址查找对应的PTE(这里的物理页是4KB,只有内核代码数据才使用4MB)
 //根据参数决定是否分配对应的PTE(create!=0时分配pte，否则只查询)
-static pte_t 
-look_up_pte(vaddr_t vaddr,char create)
+static pte_t*
+look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
 {
+    //如果对应的二级页存在
+    pde_t *pde=PDE(vaddr);
+    if((*pde)|PT_P){
+        
+    }
 
+    //如果对应的二级页不存在，若create为真则创建，否则退出
+    else{
+        if(!create){
+            return NULL;
+        }
+
+    }
+    
 }
 
 //将起始为v_start，长度为len的虚拟地址空间映射到物理地址p_start处，其属性为config
-void memory_map(vaddr_t v_start,size_t len,paddr_t p_start,uint32_t config)
+void memory_map(pde_t* pgdir,vaddr_t v_start,size_t len,paddr_t p_start,uint32_t config)
 {
 
 }
