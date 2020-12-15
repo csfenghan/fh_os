@@ -28,6 +28,18 @@
 ///////////////////////////////////////////////////////////////////
 
 /*下面定义的是mmu的信息*/
+//虚拟地址中的分段
+#define PD_INDEX_SHIFT 22 //page directory的偏移
+#define PT_INDEX_SHIFT 12 //page table的偏移
+
+//虚拟地址中的page directory index和page table index
+#define PD_INDEX(addr) ((addr)>>PD_INDEX_SHIFT)
+#define PT_INDEX(addr) (((addr)>>PT_INDEX_SHIFT)&(0xfffffc00))
+
+//PDE和PTE中的保存的地址项
+#define PDE(pde) ((pde)&(0xfffff000))
+#define PTE(pte) ((pte)&(0xfffff000))
+
 //以下是x86的PDE和PTE的位的定义(简称PT(Page Table))
 #define PT_P 0x01   //present
 #define PT_W 0x02   //writable
@@ -42,12 +54,7 @@
 //寄存器设置
 #define CR4_PSE 0x10    //开启4MB超级页
 
-//virtual address分段
-#define PDE_SHIFT 22 //page directory的偏移
-#define PTE_SHIFT 12 //page table的偏移
 
-#define PDE(addr) ((addr)>>PDE_SHIFT)
-#define PTE(addr) (((addr)>>PTE_SHIFT)&(0xfffffc00))
 
 
 //控制寄存器的位

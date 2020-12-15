@@ -49,7 +49,7 @@ static void detect_mem_size()
 static void kernel_pgdir_init()
 {
     kernel_pgdir=(pde_t *)ROUND_UP((char *)kernel_end,PAGE_SIZE);
-    kernel_end[KERNEL_BASE>>PDE_SHIFT]=(0x00|PT_P|PT_W|PT_PS);  //映射到[0,4MB]，超级页
+    kernel_end[PD_INDEX(KERNEL_BASE)]=(0x00|PT_P|PT_W|PT_PS);  //映射到[0,4MB]，超级页
 }
 
 //function:初始化空闲链表
@@ -109,15 +109,15 @@ static pte_t*
 look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
 {
     //如果对应的二级页存在
-    pde_t *pde=&pgdir[PDE(vaddr)];
+    pde_t *pde=&pgdir[PD_INDEX(vaddr)];
+    pte_t pt_index=PT_INDEX(vaddr);
+    pte_t *result;
+
     if((*pde)|PT_P){
         //如果是内核的4MB页，则返回结果
         if((*pde)|PT_PS) 
             return pde;
-        pte_t pte=PTE(vaddr);
-        pte_t *result=(pte_t *)((uint32_t)PHY_TO_KERNEL((*pde)&0xfffff000)+4*pte);
-
-        return result;
+        result=(pte_t *)((uint32_t)PHY_TO_KERNEL(PDE(*pde))+4*pt_index);
     }
 
     //如果对应的二级页不存在，若create为真则创建，否则退出
@@ -131,11 +131,9 @@ look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
         }
         paddr_t paddr=PAGE_INFO_TO_PHY(new_page);
         *pde=paddr|PT_P|PT_W;
-        pte_t pte=PTE(vaddr);
-        pte_t *result=(pte_t *)((uint32_t)PHY_TO_KERNEL((*pde)&0xfffff000)+4*pte);
-
-        return result;
+        result=(pte_t *)((uint32_t)PHY_TO_KERNEL(PDE(*pde))+4*pt_index);
     }
+    return result;
 }
 
 //将起始为v_start，长度为len的虚拟地址空间映射到物理地址p_start处，其属性为config
@@ -151,4 +149,6 @@ void mem_init()
     detect_mem_size();  //检测实际可用的内存大小
     kernel_pgdir_init();    //kernel的页表初始化
     free_page_init();   //空闲链表初始化
+    pte_t *pte=look_up_pte(kernel_pgdir,KERNEL_BASE,0);
+
 }
