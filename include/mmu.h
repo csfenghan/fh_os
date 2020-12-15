@@ -47,7 +47,8 @@
 #define PTE_SHIFT 12 //page table的偏移
 
 #define PDE(addr) ((addr)>>PDE_SHIFT)
-#define PTE(addr) ((addr)>>PTE_SHIFT)
+#define PTE(addr) (((addr)>>PTE_SHIFT)&(0xfffffc00))
+
 
 //控制寄存器的位
 

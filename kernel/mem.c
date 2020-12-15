@@ -109,9 +109,15 @@ static pte_t*
 look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
 {
     //如果对应的二级页存在
-    pde_t *pde=PDE(vaddr);
+    pde_t *pde=&pgdir[PDE(vaddr)];
     if((*pde)|PT_P){
-        
+        //如果是内核的4MB页，则返回结果
+        if((*pde)|PT_PS) 
+            return pde;
+        pte_t pte=PTE(vaddr);
+        pte_t *result=(pte_t *)((uint32_t)PHY_TO_KERNEL((*pde)&0xfffff000)+4*pte);
+
+        return result;
     }
 
     //如果对应的二级页不存在，若create为真则创建，否则退出
@@ -119,9 +125,17 @@ look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
         if(!create){
             return NULL;
         }
+        struct phy_page_info *new_page=phy_page_alloc(); 
+        if(new_page==NULL){
+            return NULL;
+        }
+        paddr_t paddr=PAGE_INFO_TO_PHY(new_page);
+        *pde=paddr|PT_P|PT_W;
+        pte_t pte=PTE(vaddr);
+        pte_t *result=(pte_t *)((uint32_t)PHY_TO_KERNEL((*pde)&0xfffff000)+4*pte);
 
+        return result;
     }
-    
 }
 
 //将起始为v_start，长度为len的虚拟地址空间映射到物理地址p_start处，其属性为config
