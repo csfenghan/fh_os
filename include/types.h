@@ -26,18 +26,20 @@ typedef uint32_t pte_t;
 
 
 /////////////////////////////////////////////////////
-#define ROUND_UP(x,n) (\
-{                       \
+//将x向上对其n位
+#define ROUND_UP(x,n) \
+({                       \
     uint32_t _x=(uint32_t)(x);      \
     (typeof(x))((_x)/(n)*(n)+(n));    \
-}                        \
-)
+})                        
 
-#define ROUND_DOWN(x,n) ( \
-{                       \
+//将x向下对其n位
+#define ROUND_DOWN(x,n)  \
+({                       \
     uint32_t _x=(uint32_t)(x);      \
     (typeof(x))((_x)/(n)*(n));    \
-}                        \
-)
+})                        
+
+
 
 #endif

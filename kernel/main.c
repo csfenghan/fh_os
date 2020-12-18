@@ -5,10 +5,13 @@
 
 extern void print(char *);
 
+int test();
+
 int main()
 {
     mem_init();
-    print("success!");
+    test();
+
 	while(2);
 
 }

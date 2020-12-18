@@ -29,8 +29,9 @@ extern void print(char *);
 extern char kernel_end[];   //定义在kernel.ld中
 static char *next_free=(char *)kernel_end;   //指向先一个空闲的地址
 
+#define assert(x) if((x)==NULL) return 0;
 //////////////////////////////////////////////////////////////////
-//从struct page_info转换到对应的物理页地址
+//从struct page_info转换到对应的物理页地址(page_info是指针)
 #define PAGE_INFO_TO_PHY(page_info)   \
     ((paddr_t)(((struct phy_page_info *)page_info-free_page_head)*PAGE_SIZE))
    
@@ -90,6 +91,8 @@ phy_page_alloc()
     struct phy_page_info *result;
     result=free_page_list->next;
     free_page_list->next=result->next;
+    result->next=NULL;
+
     return result;
 }
 
@@ -139,7 +142,7 @@ look_up_pte(pde_t *pgdir,vaddr_t vaddr,char create)
 //将起始为v_start，长度为len的虚拟地址空间映射到物理地址p_start处，其属性为config
 void memory_map(pde_t* pgdir,vaddr_t v_start,size_t len,paddr_t p_start,uint32_t config)
 {
-
+     
 }
 
 
@@ -151,4 +154,32 @@ void mem_init()
     free_page_init();   //空闲链表初始化
     pte_t *pte=look_up_pte(kernel_pgdir,KERNEL_BASE,0);
 
+}
+
+
+////////////////////////////////////////////////////////////
+//参考jos，对内存分配功能进行测试
+int test()
+{
+    struct phy_page_info *p1,*p2,*p3;
+
+    //分配一个页
+    p1=phy_page_alloc();
+    assert(p1);
+
+    //清空p1
+    //这里存在一个问题，就是free之后p1指向的结构虽然被重新加入到了空闲链表中，但是
+    //p1仍然指向该结构体，一旦被使用将会造成很大问题，因此需要手动将p1指向NULL
+    phy_page_free(p1);
+    assert(p1->next==free_page_list->next->next);
+    p1=NULL;
+
+    //将空闲链表置空，不应该分配页面
+    //free_page_list->next=NULL;
+    //p1=phy_page_alloc();
+    //assert(p1==NULL);
+
+
+
+    print(" successed!");
 }

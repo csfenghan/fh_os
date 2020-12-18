@@ -33,8 +33,7 @@ kernel_start:
     movl %eax,(%ebx)
 
     #将[KERNEL_BASE,KERNEL_BASE+4MB]映射到[0,4MB]，开启超级页，每个页4MB
-    movl $KERNEL_BASE,%edx
-    shr $PDE_SHIFT,%edx
+    movl $PD_INDEX(KERNEL_BASE),%edx
     leal (%ebx,%edx,4),%ebx
     movl $(0x00|PT_W|PT_P|PT_PS),%eax
     movl %eax,(%ebx)
@@ -93,7 +92,8 @@ spin:
 
 #要显示的消息
 message:
-    .ascii "Hello,fenghan!You have successfully Started kernel!"
+#    .ascii "Hello,fenghan!You have successfully Started kernel!"
+    .ascii " "
 len:
     .long len-message
 
