@@ -5,13 +5,14 @@
 
 extern void print(char *);
 
-int test();
+static int test(){
+	print("hello,nihao");
+};
 
 int main()
 {
     mem_init();
     test();
 
-	while(2);
-
+	while(1);
 }
