@@ -22,7 +22,7 @@ boot.asm:boot.elf
 	$(V) $(OBJDUMP) -S $^ > $@
 
 boot.elf:$(OBJ)
-	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start -o $@ $^
+	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start $^ -o $@ 
 
 %.o:%.asm
 	$(V) $(ASM) -f elf $^ -o $@
