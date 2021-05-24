@@ -9,11 +9,20 @@ include ../makefile.defines
 OBJ=boot_asm.o \
 	boot_main.o
 
-#构建输出
-all:$(OBJ)
-	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start -o boot.out $^
-	$(V) $(OBJDUMP) -S boot.out > boot.asm
-	$(V) $(OBJCOPY) -S -O binary -j .text  boot.out boot.bin
+###########################################
+#	构建过程
+############################################
+all:boot.bin boot.asm 
+	@echo "Successed build boot"
+
+boot.bin:boot.elf
+	$(V) $(OBJCOPY) -S -O binary -j .text  $^ $@
+
+boot.asm:boot.elf
+	$(V) $(OBJDUMP) -S $^ > $@
+
+boot.elf:$(OBJ)
+	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start -o $@ $^
 
 %.o:%.asm
 	$(V) $(ASM) -f elf $^ -o $@
@@ -22,6 +31,9 @@ all:$(OBJ)
 	$(V) $(CC) $(C_FLAGS) -Os -c $^ -o $@
 
 
+################################################
+#	伪指令
+###############################################
 .PHONY: clean
 clean:
-	rm $(OBJ) boot.out boot.asm boot.bin
+	rm $(OBJ) boot.elf boot.asm boot.bin
