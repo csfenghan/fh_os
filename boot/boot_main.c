@@ -2,7 +2,7 @@
     1. 本文件负责读取内核的elf头，将内核加载至内存，并把控制权移交给内核
 */
 
-#include "include/elf.h"
+#include "elf.h"
 #include "include/x86.h"
 
 void ReadDisk(uint32_t sector,uint32_t paddr,uint8_t count);
