@@ -1,58 +1,50 @@
-CC:=gcc
-LD:=ld
-MAKE:=make -C
-ASM:=nasm
-OBJDUMP:=objdump
-OBJCOPY:=objcopy
+#这个文件包含了makefile的配置信息
+include makefile.defines
 
-#根目录、子文件夹目录和输出
-OBJ_DIR:=obj
-ROOT_DIR:=$(shell pwd)
-SUB_DIR:=boot kernel 
-IMAGE:=kernel.img
-#QEMU:=qemu-system-i386 
-QEMU:=qemu-system-x86_64
-GDBPORT=1234
+##################################################
+#	构建过程
+#################################################
+all:BUILD_SUB_DIR
+	@#先创建一个10M的镜像
+	$(V) dd if=/dev/zero of=$(IMAGE) count=20000 2>/dev/null
 
-#配置
-C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc \
-		-static -fno-omit-frame-pointer -std=gnu99\
-		-I$(ROOT_DIR)
-LD_FLAGS:=-Bstatic -m elf_i386
-V=@
-QEMU_FLAGS:=-drive file=$(OBJ_DIR)/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
+	@#将boot中的起始扇区写入到镜像中，其是最后两个字节用于标识启动扇区的标识码
+	$(V) dd if=boot/StartSector of=$(IMAGE) conv=notrunc 2>/dev/null
 
-#向子目录的makefile输出
-export CC LD MAKE ASM OBJDUMP OBJCOPY \
-		OBJ_DIR ROOT_DIR C_FLAGS LD_FLAGS V
+	@#将boot代码写入镜像中，注意不要覆盖启动扇区的最后两个字节
+	$(V) dd if=boot/boot.bin of=$(IMAGE) bs=510 conv=notrunc 2>/dev/null
 
+	@#将kernel的内容写入到镜像的第二个扇区以后的位置
+	$(V) dd if=kernel/kernel.elf of=$(IMAGE) bs=512 seek=1 conv=notrunc 2>/dev/null
 
-#构建目标
-all:$(SUB_DIR) 
-	$(V) dd if=/dev/zero of=$(OBJ_DIR)/$(IMAGE) count=10000 2>/dev/null
-	$(V) dd if=boot/StartSector of=$(OBJ_DIR)/$(IMAGE) conv=notrunc 2>/dev/null
-	$(V) dd if=$(OBJ_DIR)/boot/boot of=$(OBJ_DIR)/$(IMAGE) bs=510 conv=notrunc 2>/dev/null
-	$(V) dd if=$(OBJ_DIR)/kernel/kernel of=$(OBJ_DIR)/$(IMAGE) bs=512 seek=1 conv=notrunc 2>/dev/null
+	@echo "All built"
 
 #迭代构建子目录的目标
-$(SUB_DIR):not_use
-	@$(MAKE) $@
-not_use:
+BUILD_SUB_DIR:$(SUB_DIR)
+	@(for sub_dir in $(SUB_DIR);\
+		do\
+			make -C $$sub_dir;\
+		done)
 
-
-##############################################################
+####################################################
+#	伪指令
+####################################################
 .PHONY:clean qemu qemu-gdb
 clean:
-	rm -rf $(OBJ_DIR)
+	rm $(IMAGE)
+	@(for sub_dir in $(SUB_DIR);\
+		do\
+			make clean -C $$sub_dir;\
+		done)
 
-qemu:$(OBJ_DIR)/$(IMAGE)
+qemu:$(IMAGE)
 	$(QEMU) $(QEMU_FLAGS) 
 
-qemu-gdb:$(OBJ_DIR)/$(IMAGE)
+qemu-gdb:$(IMAGE)
 	$(QEMU) $(QEMU_FLAGS) -S
 
-qemu-nox:$(OBJ_DIR)/$(IMAGE)
+qemu-nox:$(IMAGE)
 	$(QEMU) $(QEMU_FLAGS) -nographic
 
-qemu-nox-gdb:$(OBJ_DIR)/$(IMAGE)
+qemu-nox-gdb:$(IMAGE)
 	$(QEMU) $(QEMU_FLAGS) -nographic -S

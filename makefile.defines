@@ -1,4 +1,5 @@
 #构造工具
+V:=@	
 CC:=gcc
 LD:=ld
 MAKE:=make -C
@@ -6,6 +7,11 @@ ASM:=nasm
 OBJDUMP:=objdump
 OBJCOPY:=objcopy
 
+#工程目录
+ROOT_DIR:="/home/fenghan/fh_os"
+INCLUDE_DIR:=$(ROOT_DIR)
+SUB_DIR:=boot\
+		kernel
 
 #运行工具
 QEMU:=qemu-system-x86_64
@@ -13,13 +19,7 @@ IMAGE:=kernel.img
 GDBPORT=12345
 
 #参数配置
-ROOT_DIR:="/home/fenghan/fh_os"
-INCLUDE_DIR:=$(ROOT_DIR)
-C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc \
-	-static -fno-omit-frame-pointer -std=gnu99\
-	-I$(INCLUDE_DIR)
-	
+C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc -static -fno-omit-frame-pointer -std=gnu99 -I$(INCLUDE_DIR)
 LD_FLAGS:=-Bstatic -m elf_i386
-V=@
-QEMU_FLAGS:=-drive file=kernel/$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
+QEMU_FLAGS:=-drive file=$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
 
