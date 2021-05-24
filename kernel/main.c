@@ -12,7 +12,6 @@ static int test(){
 int main()
 {
     mem_init();
-    test();
 
 	while(1);
 }
