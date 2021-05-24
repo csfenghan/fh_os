@@ -3,7 +3,7 @@
 */
 
 #include "elf.h"
-#include "include/x86.h"
+#include "x86/io.h"
 
 void ReadDisk(uint32_t sector,uint32_t paddr,uint8_t count);
 
