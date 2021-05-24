@@ -2,9 +2,8 @@
     本文件负责内存的初始化，分配管理物理内存等
 */
 
-#include <include/types.h>
-#include <include/mmu.h>
-#include <kernel/mem.h>
+#include <x86/types.h>
+#include <x86/mmu.h>
 
 /*
 内存布局自下向上为：
@@ -27,7 +26,7 @@ static uint32_t number_pages;   //实际的物理页数目
 
 extern void print(char *);
 extern char kernel_end[];   //定义在kernel.ld中
-static char *next_free=(char *)kernel_end;   //指向先一个空闲的地址
+//static char *next_free=(char *)kernel_end;   //指向先一个空闲的地址
 
 #define assert(x) if((x)==NULL) return 0;
 //////////////////////////////////////////////////////////////////

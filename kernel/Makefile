@@ -8,7 +8,6 @@ include ../makefile.defines
 
 SOURCE_FILES=kernel_entry.S\
 			 main.c\
-			 mem.c\
 			 print.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))
@@ -25,13 +24,13 @@ kernel.asm:kernel.elf
 	$(V) $(OBJDUMP) -S $^ > $@
 
 kernel.elf:$(OBJ_FILES)
-	$(V) $(LD) $(LD_FLAGS)  -T $(LD_FILE) $^ -o $@
+	$(V) $(LD) -T $(LD_FILE) $^ -o $@ $(LD_FLAGS)  
 
 %.o:%.S
-	$(V) $(CC) $(C_FLAGS) -c $^ -o $@
+	$(V) $(CC) -c $^ -o $@ $(C_FLAGS) 
 
 %.o:%.c
-	$(V) $(CC) $(C_FLAGS) -c $^ -o $@
+	$(V) $(CC) -c $^ -o $@ $(C_FLAGS) 
 
 #######################################################
 #	伪指令
