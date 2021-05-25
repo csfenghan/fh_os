@@ -1,4 +1,4 @@
-#include "include/types.h"
+#include "types.h"
 
 int strlen(const char *s) {
     int n;
@@ -21,19 +21,6 @@ char *strcpy(char *dst, const char *src){
 
     ret = dst;
     while((*dst++ = *src++) != '\0');
-    return ret;
-}
-
-char *strncpy(char *dst, const char *src, size_t size){
-    char *ret;
-    int i;
-
-    ret=dst;
-    for(i=0;i<size;i++){
-        *dst++=*src;
-        if(*src!='\0')
-            src++;
-    } 
     return ret;
 }
 
@@ -66,10 +53,10 @@ int strcmp(const char *s1, const char *s2){
 }
 
 int strncmp(const char *s1, const char *s2, size_t size){
-    while(n > 0 && *s1 && *s1 == *s2){
-        n--,s1++,s2++;
+    while(size > 0 && *s1 && *s1 == *s2){
+        size--,s1++,s2++;
     }
-    if(n==0)
+    if(size==0)
         return 0;
     else
         return (int)((unsigned char)*s1 - (unsigned char)*s2);
