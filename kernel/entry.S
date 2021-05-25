@@ -63,6 +63,7 @@ next:
     movl $(KERNEL_STACK_TOP),%esp
     
     #不知道为什么，，直接call会出错，用jmp就没事
+	push %ebp
     call main
 
 spin:
