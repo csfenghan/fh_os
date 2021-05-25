@@ -71,7 +71,16 @@ char *strchr(const char *s, char c){
 }
 char *strfind(const char *s, char c);
 
-void *memset(void *dst, int c, size_t len){
+void *memset(void *dst, int c, size_t n){
+	char *p;
+	int m;
+
+	p = dst;
+	m = n;
+	while (--m >= 0)
+		*p++ = c;
+
+	return dst;
     
 }
 

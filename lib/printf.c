@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "stdarg.h"
 
-static void
+void
 putch(int ch, int *cnt)
 {
 	cputchar(ch);

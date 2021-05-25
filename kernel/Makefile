@@ -5,7 +5,7 @@
 #########################################################
 include ../makefile.defines
 
-SOURCE_FILES=kernel_entry.S\
+SOURCE_FILES=entry.S\
 			 main.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))

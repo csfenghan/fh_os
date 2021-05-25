@@ -62,21 +62,6 @@ next:
     movl 0x00,%ebp
     movl $(KERNEL_STACK_TOP),%esp
     
-    #打印一串消息表示成功启动
-    movl (len),%ecx
-    movl $(message),%ebx
-    movl $(PHY_TO_KERNEL(0xb8000)),%edx
-
-show:
-    movb (%ebx),%al
-    movb $0x07,%ah 
-    movw %ax,(%edx)
-
-    addl $0x01,%ebx
-    addl $0x02,%edx
-
-    loop show
-
     #不知道为什么，，直接call会出错，用jmp就没事
     call main
 
@@ -89,14 +74,6 @@ spin:
 #开始，因此必须4k对齐
 ###################################################
 .data
-
-#要显示的消息
-message:
-#    .ascii "Hello,fenghan!You have successfully Started kernel!"
-    .ascii " "
-len:
-    .long len-message
-
 .align PAGE_SIZE
 #临时的页目录
 entry_page_dir:
