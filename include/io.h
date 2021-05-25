@@ -5,7 +5,7 @@
     本文件主要定义了x86的端口操作的封装，便于在c函数中调用
 */
 
-#include "x86/types.h"
+#include "types.h"
 
 static inline uint8_t
 inb(int port)

@@ -1,7 +1,7 @@
 #ifndef FH_OS_ELF_H
 #define FH_OS_ELF_H
 
-#include "x86/types.h"
+#include "types.h"
 
 //elf文件的magic
 #define ELF_MAGIC 0x464c457f

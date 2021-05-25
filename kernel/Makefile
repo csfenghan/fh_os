@@ -7,8 +7,7 @@
 include ../makefile.defines
 
 SOURCE_FILES=kernel_entry.S\
-			 main.c\
-			 print.c
+			 main.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))
 OBJ_FILES:=$(patsubst %.c,%.o,$(OBJ_FILES))

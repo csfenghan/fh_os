@@ -3,12 +3,6 @@
 */
 #include <mem.h>
 
-extern void print(char *);
-
-static int test(){
-	print("hello,nihao");
-};
-
 int main()
 {
     mem_init();

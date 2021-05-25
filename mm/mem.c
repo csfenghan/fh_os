@@ -2,8 +2,8 @@
     本文件负责内存的初始化，分配管理物理内存等
 */
 
-#include <x86/types.h>
-#include <x86/mmu.h>
+#include <types.h>
+#include <mmu.h>
 
 /*
 内存布局自下向上为：
@@ -177,8 +177,4 @@ int test()
     //free_page_list->next=NULL;
     //p1=phy_page_alloc();
     //assert(p1==NULL);
-
-
-
-    print(" successed!");
 }
