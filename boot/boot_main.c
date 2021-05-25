@@ -38,7 +38,6 @@ void bootmain()
 
     /*终于要进去OS了！！*/
     ((void (*)(void)) (elf_header->e_entry))();
-    
 }
 
 

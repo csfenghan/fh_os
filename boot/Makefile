@@ -6,7 +6,7 @@
 
 include ../makefile.defines
 
-OBJ=boot_asm.o \
+OBJ=boot.o \
 	boot_main.o
 
 ###########################################
@@ -24,8 +24,8 @@ boot.asm:boot.elf
 boot.elf:$(OBJ)
 	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start $^ -o $@ 
 
-%.o:%.asm
-	$(V) $(ASM) -f elf $^ -o $@
+%.o:%.S
+	$(V) $(CC)  $^ -o $@ -c $(C_FLAGS)
 
 %.o:%.c
 	$(V) $(CC) $(C_FLAGS) -Os -c $^ -o $@
