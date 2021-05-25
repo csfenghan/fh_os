@@ -3,7 +3,7 @@
 */
 
 #include <types.h>
-#include <mmu.h>
+#include <x86_memory_layout.h>
 
 /*
 内存布局自下向上为：

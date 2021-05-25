@@ -1,11 +1,11 @@
 /*
     该文件负责完成内核的初始化工作
 */
-#include <mem.h>
+#include <stdio.h>
 
 int main()
 {
-    mem_init();
+	cprintf("hello,libk\n");	
 
 	while(1);
 }

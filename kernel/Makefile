@@ -3,7 +3,6 @@
 #	最终生成的文件为elf32格式，不是bin格式
 #	内核入口为kernel_entry
 #########################################################
-
 include ../makefile.defines
 
 SOURCE_FILES=kernel_entry.S\

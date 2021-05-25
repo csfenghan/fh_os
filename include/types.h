@@ -8,6 +8,7 @@
 #define NULL 0
 
 //基本数据类型
+typedef char bool;
 typedef char int8_t;
 typedef unsigned char uint8_t;
 typedef short int16_t;

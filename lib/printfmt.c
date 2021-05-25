@@ -2,11 +2,11 @@
 // used in common by printf, sprintf, fprintf, etc.
 // This code is also used by both the kernel and user programs.
 
-#include <types.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
-#include <error.h>
+#include "types.h"
+#include "stdio.h"
+#include "string.h"
+#include "stdarg.h"
+#include "error.h"
 
 /*
  * Space or zero padding and a field width are supported for the numeric
@@ -34,7 +34,7 @@ static const char * const error_string[MAXERROR] =
  */
 static void
 printnum(void (*putch)(int, void*), void *putdat,
-	 unsigned long long num, unsigned base, int width, int padc)
+	 unsigned long num, unsigned base, int width, int padc)
 {
 	// first recursively print all preceding (more significant) digits
 	if (num >= base) {
@@ -51,11 +51,11 @@ printnum(void (*putch)(int, void*), void *putdat,
 
 // Get an unsigned int of various possible sizes from a varargs list,
 // depending on the lflag parameter.
-static unsigned long long
+static unsigned long
 getuint(va_list *ap, int lflag)
 {
 	if (lflag >= 2)
-		return va_arg(*ap, unsigned long long);
+		return va_arg(*ap, unsigned long);
 	else if (lflag)
 		return va_arg(*ap, unsigned long);
 	else
@@ -64,11 +64,11 @@ getuint(va_list *ap, int lflag)
 
 // Same as getuint but signed - can't use getuint
 // because of sign extension
-static long long
+static long
 getint(va_list *ap, int lflag)
 {
 	if (lflag >= 2)
-		return va_arg(*ap, long long);
+		return va_arg(*ap, long);
 	else if (lflag)
 		return va_arg(*ap, long);
 	else
@@ -84,7 +84,7 @@ vprintfmt(void (*putch)(int, void*), void *putdat, const char *fmt, va_list ap)
 {
 	register const char *p;
 	register int ch, err;
-	unsigned long long num;
+	unsigned long num;
 	int base, lflag, width, precision, altflag;
 	char padc;
 
@@ -150,7 +150,7 @@ vprintfmt(void (*putch)(int, void*), void *putdat, const char *fmt, va_list ap)
 				width = precision, precision = -1;
 			goto reswitch;
 
-		// long flag (doubled for long long)
+		// long flag (doubled for long)
 		case 'l':
 			lflag++;
 			goto reswitch;
@@ -190,9 +190,9 @@ vprintfmt(void (*putch)(int, void*), void *putdat, const char *fmt, va_list ap)
 		// (signed) decimal
 		case 'd':
 			num = getint(&ap, lflag);
-			if ((long long) num < 0) {
+			if ((long) num < 0) {
 				putch('-', putdat);
-				num = -(long long) num;
+				num = -(long) num;
 			}
 			base = 10;
 			goto number;
@@ -214,7 +214,7 @@ vprintfmt(void (*putch)(int, void*), void *putdat, const char *fmt, va_list ap)
 		case 'p':
 			putch('0', putdat);
 			putch('x', putdat);
-			num = (unsigned long long)
+			num = (unsigned long)
 				*(uint32_t *) va_arg(ap, void *);
 			base = 16;
 			goto number;

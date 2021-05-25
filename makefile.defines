@@ -9,8 +9,9 @@ OBJCOPY:=objcopy
 
 #工程目录
 ROOT_DIR:=/home/fenghan/fh_os
-SUB_DIR:=boot\
+SUB_DIR:=lib\
 		mm\
+		boot\
 		kernel
 
 #运行工具
@@ -20,8 +21,9 @@ GDBPORT=12345
 
 #参数配置
 INCLUDE_CONFIG:=-I$(ROOT_DIR)/include
-LIBRARY_CONFIG:=-L$(ROOT_DIR)/mm -lmm
-C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc -static -fno-omit-frame-pointer -std=gnu99 $(INCLUDE_CONFIG) 
+LIBRARY_CONFIG:=-L$(ROOT_DIR)/mm -lmm -L$(ROOT_DIR)/lib -lk
+C_FLAGS:= -Werror -g -m32 -O1 -fno-builtin -nostdinc -static -fno-omit-frame-pointer \
+	-fno-stack-protector -std=gnu99 $(INCLUDE_CONFIG) 
 LD_FLAGS:=-Bstatic -m elf_i386 $(LIBRARY_CONFIG)
 QEMU_FLAGS:=-drive file=$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
 

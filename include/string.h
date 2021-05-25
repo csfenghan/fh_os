@@ -1,7 +1,7 @@
 #ifndef FOS_STRING_H
 #define FOS_STRING_H
 
-#include "include/types.h"
+#include "types.h"
 
 //参考c函数的基本接口
 

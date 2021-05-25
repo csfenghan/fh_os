@@ -4,7 +4,7 @@
 
 include ../makefile.defines
 
-SOURCE_FILES=mem.c
+SOURCE_FILES=memory.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))
 OBJ_FILES:=$(patsubst %.c,%.o,$(OBJ_FILES))

@@ -76,7 +76,27 @@ void *memset(void *dst, int c, size_t len){
 }
 
 void *memcpy(void *dst, const void *src, size_t len);
-void *memmove(void *dst, const void *src, size_t len);
+
+void *
+memmove(void *dst, const void *src, size_t n)
+{
+	const char *s;
+	char *d;
+
+	s = src;
+	d = dst;
+	if (s < d && s + n > d) {
+		s += n;
+		d += n;
+		while (n-- > 0)
+			*--d = *--s;
+	} else
+		while (n-- > 0)
+			*d++ = *s++;
+
+	return dst;
+}
+
 int memcmp(const void *s1, const void *s2, size_t len);
 void *memfind(const void *s, int c, size_t len);
 
