@@ -22,6 +22,13 @@ boot_start:
     movw    %ax,%es             # -> Extra Segment
     movw    %ax,%ss 
 
+	#清一下屏幕
+	movw	$0x600,%ax
+	movw	$0x700,%bx
+	movw	$0,%cx
+	movw	$0x184f,%dx
+	int		$0x10
+
 	#开启A20
 	inb $0x92,%al
 	or $0x02,%al
@@ -68,6 +75,20 @@ protect_mode_start:
 
 	#调用c函数进行下一步任务	
 	call bootmain
+
+	#如果返回，则报错
+	movb $'E',(0xb8000)
+	movb $0x7,(0xb8001)
+	movb $'R',(0xb8002)
+	movb $0x7,(0xb8003)
+	movb $'R',(0xb8004)
+	movb $0x07,(0xb8005)
+	movb $'O',(0xb8006)
+	movb $0x07,(0xb8007)
+	movb $'R',(0xb8008)
+	movb $0x07,(0xb8009)
+	movb $'!',(0xb800a)
+	movb $0x07,(0xb800b)
 
 spin:jmp spin		
 
