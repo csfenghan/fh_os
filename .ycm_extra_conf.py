@@ -13,20 +13,8 @@ flags=[
     '-std=c++11',
     '-x',
     'c++',
-    #使用的库文件
-    '-I',
-    '/usr/include',
-    '-I',
-    '/usr/local/include/',
     '-isystem',
-    '/usr/lib/gcc/x86_64-linux-gnu/8/include',
-    '-isystem',
-    '/usr/include/x86_64-linux-gnu',
-    '-isystem'
-    '/usr/include/c++/8',
-    '-isystem',
-    '/usr/include/c++/8/bits',
-    #搜索当前目录下的文件
+    '/home/fenghan/fh_os/include/',
     ]
  
 SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', ]
