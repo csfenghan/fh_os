@@ -1,6 +1,6 @@
-#include "types.h"
-#include "stdio.h"
-#include "error.h"
+#include <types.h>
+#include <stdio.h>
+#include <error.h>
 
 #define BUFLEN 1024
 static char buf[BUFLEN];

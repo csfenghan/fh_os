@@ -3,9 +3,7 @@
 #include <x86_io.h>
 #include <x86_kbdreg.h>
 #include <x86_memory_layout.h>
-#include "string.h"
-//#include <assert.h>
-
+#include <string.h>
 #include <console.h>
 
 static void cons_intr(int (*proc)(void));
