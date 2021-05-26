@@ -5,15 +5,12 @@
 #include <stdio.h>
 #include <string.h>
 
-void test(){}
-
 int main() {
     extern char data_end[], kernel_end[];
 
     memset(data_end, 0, kernel_end - data_end);
-    //cons_init();
-    //cprintf("hello,...%d\n",100);
-	test();
+    cons_init();
+	cprintf("hello,fenghan\n");
     while (1)
         ;
 }
