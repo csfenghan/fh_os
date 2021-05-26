@@ -7,7 +7,7 @@
 include ../makefile.defines
 
 OBJ=boot.o \
-	boot_main.o
+	main.o
 
 ###########################################
 #	构建过程
