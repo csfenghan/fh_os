@@ -10,6 +10,8 @@ int main() {
 
     memset(data_end, 0, kernel_end - data_end);
     cons_init();
+
+
 	cprintf("hello,fenghan\n");
     while (1)
         ;

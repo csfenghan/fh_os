@@ -6,7 +6,7 @@
 include ../makefile.defines
 
 SOURCE_FILES=entry.S\
-			 main.c
+			 init.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))
 OBJ_FILES:=$(patsubst %.c,%.o,$(OBJ_FILES))
