@@ -17,10 +17,10 @@ boot_start:
 	cld
 
 	#对寄存器清零
-    xorw    %ax,%ax             # Segment number zero
-    movw    %ax,%ds             # -> Data Segment
-    movw    %ax,%es             # -> Extra Segment
-    movw    %ax,%ss 
+        xorw    %ax,%ax             # Segment number zero
+	movw    %ax,%ds             # -> Data Segment
+        movw    %ax,%es             # -> Extra Segment
+	movw    %ax,%ss 
 
 	#清一下屏幕
 	movw	$0x600,%ax
@@ -65,30 +65,16 @@ protect_mode_start:
 	
 	#设置选择子
 	movw    $0x10,%ax
-    movw    %ax, %ds                # -> DS: Data Segment
-    movw    %ax, %es                # -> ES: Extra Segment
-    movw    %ax, %fs                # -> FS
-    movw    %ax, %gs                # -> GS
-    movw    %ax, %ss                # -> SS: Stack Segment
+	movw    %ax, %ds                # -> DS: Data Segment
+	movw    %ax, %es                # -> ES: Extra Segment
+	movw    %ax, %fs                # -> FS
+	movw    %ax, %gs                # -> GS
+	movw    %ax, %ss                # -> SS: Stack Segment
 
-    movl    $0x7c00, %esp	
+	movl    $0x7c00, %esp	
 
 	#调用c函数进行下一步任务	
 	call bootmain
-
-	#如果返回，则报错
-	movb $'E',(0xb8000)
-	movb $0x7,(0xb8001)
-	movb $'R',(0xb8002)
-	movb $0x7,(0xb8003)
-	movb $'R',(0xb8004)
-	movb $0x07,(0xb8005)
-	movb $'O',(0xb8006)
-	movb $0x07,(0xb8007)
-	movb $'R',(0xb8008)
-	movb $0x07,(0xb8009)
-	movb $'!',(0xb800a)
-	movb $0x07,(0xb800b)
 
 spin:jmp spin		
 
