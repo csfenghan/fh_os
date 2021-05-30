@@ -3,7 +3,7 @@ V:=
 CC:=gcc
 LD:=ld
 MAKE:=make -C
-ASM:=nasm
+ASM:=gcc
 OBJDUMP:=objdump
 OBJCOPY:=objcopy
 
@@ -16,7 +16,7 @@ SUB_DIR:=lib\
 
 #运行工具
 QEMU:=qemu-system-x86_64
-IMAGE:=kernel.img
+IMAGE:=kernel/kernel.img
 GDBPORT=12345
 
 #参数配置
