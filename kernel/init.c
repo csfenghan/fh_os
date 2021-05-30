@@ -6,13 +6,12 @@
 #include <string.h>
 
 int main() {
-    extern char data_end[], kernel_end[];
+        extern char data_end[], kernel_end[];
 
-    memset(data_end, 0, kernel_end - data_end);
-    cons_init();
+        memset(data_end, 0, (size_t)kernel_end - (size_t)data_end); //清零bss段
+        cons_init();                                                //输出初始化
 
-
-	cprintf("hello,fenghan\n");
-    while (1)
-        ;
+        cprintf("hello,fenghan\n");
+        while (1)
+                ;
 }
