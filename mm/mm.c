@@ -105,7 +105,7 @@ static struct page_info *page_alloc(int alloc_flags) {
 
         result->next = NULL;
         if (alloc_flags & ALLOC_ZERO)
-                memset((void *)PAGE_INFO_TO_PHY(result), 0, PAGE_SIZE);
+                memset((void *)PHY_TO_KERNEL(PAGE_INFO_TO_PHY(result)), 0, PAGE_SIZE);
 
         return result;
 }
@@ -148,7 +148,6 @@ static pte_t *look_up_pte(pde_t *pgdir, vaddr_t va, char create) {
 //将起始为v_start，长度为len的虚拟地址空间映射到物理地址p_start处，其属性为perm
 //地址都是已经对齐的
 void memory_map(pde_t *pgdir, vaddr_t va, size_t len, paddr_t pa, uint32_t perm) {
-
         for (size_t n = 0; n <= len; n += PAGE_SIZE) {
                 pte_t *pte = look_up_pte(pgdir, va, 1);
                 *pte = pa | PT_P | perm;
@@ -178,6 +177,7 @@ void mem_init() {
         // 4.将物理内存映射到内和空间，即[0,实际物理内存大小]-->[KERNEL_BASE,最大4G]
         // 因此，kernel最多只能支持256M内存
         memory_map(kernel_pgdir, KERNEL_BASE, total_memory, 0, PT_W);
+        cprintf("step 4 is successed\n");
 
         // 5.将struct
         // page_info数组映射到[USER_PAGE_INFO，]，使USER可读（不知道啥用，jos这么写，我也先这么弄了）
@@ -185,10 +185,12 @@ void mem_init() {
                    ROUND_UP(total_pages * sizeof(struct page_info), PAGE_SIZE),
                    (paddr_t)KERNEL_TO_PHY(free_list_head), PT_U);
 
+        cprintf("step 5 is successed\n");
         // 6. 将内核栈映射到[UKERNEL_STACK_TOP-KERNEL_STACK_SIZE，]的位置，用户无权限
         memory_map(kernel_pgdir, UKERNEL_STACK_TOP - KERNEL_STACK_SIZE, KERNEL_STACK_SIZE,
                    KERNEL_TO_PHY(KERNEL_STACK_BOTTOM), PT_W);
 
+        cprintf("step 6 is successed\n");
         // 7.加载新的页表
         lcr3((uint32_t)KERNEL_TO_PHY(kernel_pgdir));
 
