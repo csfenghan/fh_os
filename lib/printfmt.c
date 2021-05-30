@@ -1,7 +1,3 @@
-// Stripped-down primitive printf-style formatting routines,
-// used in common by printf, sprintf, fprintf, etc.
-// This code is also used by both the kernel and user programs.
-
 #include <types.h>
 #include <stdio.h>
 #include <string.h>
