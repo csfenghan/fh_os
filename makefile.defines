@@ -25,5 +25,5 @@ LIBRARY_CONFIG:=-L$(ROOT_DIR)/mm -lmm -L$(ROOT_DIR)/lib -lk
 C_FLAGS:= -Werror -g -m32 -O2 -fno-builtin -nostdinc -static -fno-omit-frame-pointer \
 	-fno-stack-protector -std=gnu99 $(INCLUDE_CONFIG) 
 LD_FLAGS:=-Bstatic -m elf_i386 $(LIBRARY_CONFIG)
-QEMU_FLAGS:=-drive file=$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 1G
+QEMU_FLAGS:=-drive file=$(IMAGE),media=disk,format=raw -serial mon:stdio -gdb tcp::$(GDBPORT) -m 256M
 
