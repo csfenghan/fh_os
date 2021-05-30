@@ -25,10 +25,10 @@ boot.elf:$(OBJ)
 	$(V) $(LD) $(LD_FLAGS) -Ttext 0x7c00  -e boot_start $^ -o $@ 
 
 %.o:%.S
-	$(V) $(CC)  $^ -o $@ -c $(C_FLAGS)
+	$(V) $(CC)  $^ -o $@ -c $(C_FLAGS) -Os
 
 %.o:%.c
-	$(V) $(CC) $(C_FLAGS) -Os -c $^ -o $@
+	$(V) $(CC) $(C_FLAGS) -Os -c $^ -o $@ -Os
 
 
 ################################################
