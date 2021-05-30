@@ -1,5 +1,5 @@
-#ifndef FOS_STRING_H
-#define FOS_STRING_H
+#ifndef _STRING_H
+#define _STRING_H
 
 #include "types.h"
 

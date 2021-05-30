@@ -1,5 +1,5 @@
-#ifndef FH_OS_TYPES_H
-#define FH_OS_TYPES_H
+#ifndef _TYPES_H
+#define _TYPES_H
 
 /*
     该文件定义了用到的各种类型

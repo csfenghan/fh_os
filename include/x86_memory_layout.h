@@ -1,5 +1,5 @@
-#ifndef FH_OS_MMU_H
-#define FH_OS_MMU_H
+#ifndef _X86_MEMORY_LAYOUT_H
+#define _X86_MEMORY_LAYOUT_H
 
 /*
     这个文件定义了内核的内存布局和mmu的相关信息

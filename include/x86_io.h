@@ -1,5 +1,5 @@
-#ifndef JOS_INC_X86_H
-#define JOS_INC_X86_H
+#ifndef X86_IO_H
+#define X86_IO_H
 
 #include <types.h>
 

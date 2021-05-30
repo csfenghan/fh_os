@@ -1,5 +1,5 @@
-#ifndef INC_ERROR_H
-#define INC_ERROR_H
+#ifndef _ERROR_H
+#define _ERROR_H
 
 enum {
     // 内核的错误代码

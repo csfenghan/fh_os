@@ -1,5 +1,6 @@
-#ifndef INC_STDIO_H
-#define INC_STDIO_H
+//引用jos
+#ifndef _STDIO_H
+#define _STDIO_H
 
 #include "stdarg.h"
 
