@@ -5,10 +5,11 @@
 include ../makefile.defines
 
 SOURCE_FILES:=console.c\
-			string.c\
-			printf.c\
-			printfmt.c\
-			readline.c
+	string.c\
+	printf.c\
+	printfmt.c\
+	readline.c\
+	kclock.c
 
 OBJ_FILES:=$(patsubst %.S,%.o,$(SOURCE_FILES))
 OBJ_FILES:=$(patsubst %.c,%.o,$(OBJ_FILES))
