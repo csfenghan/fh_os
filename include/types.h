@@ -20,6 +20,7 @@ typedef unsigned int uint32_t;
 typedef uint32_t vaddr_t;
 typedef uint32_t paddr_t;
 typedef uint32_t size_t;
+typedef int32_t ssize_t;
 
 //mmu用到的一些定义
 typedef uint32_t pde_t;
