@@ -12,7 +12,7 @@ flags=[
     '-DNDEBUG',
     '-std=c++11',
     '-x',
-    'c++',
+    'c',
     '-isystem',
     '/home/fenghan/fh_os/include/',
     ]
