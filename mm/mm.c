@@ -191,6 +191,7 @@ void mem_init() {
                    KERNEL_TO_PHY(KERNEL_STACK_BOTTOM), PT_W);
 
         cprintf("step 6 is successed\n");
+        cprintf("kernel_pgdir: %ud, phy: %ud\n", kernel_pgdir, KERNEL_TO_PHY(kernel_pgdir));
         // 7.加载新的页表
         lcr3((uint32_t)KERNEL_TO_PHY(kernel_pgdir));
 
@@ -199,18 +200,3 @@ void mem_init() {
 
 ////////////////////////////////////////////////////////////
 //参考jos，对内存分配功能进行测试
-int test() {
-        struct page_info *p1, *p2, *p3;
-
-        //清空p1
-        //这里存在一个问题，就是free之后p1指向的结构虽然被重新加入到了空闲链表中，但是
-        // p1仍然指向该结构体，一旦被使用将会造成很大问题，因此需要手动将p1指向NULL
-        // page_free(p1);
-        // assert(p1->next == free_page_list->next->next);
-        // p1 = NULL;
-
-        //将空闲链表置空，不应该分配页面
-        // free_page_list->next=NULL;
-        // p1=page_alloc();
-        // assert(p1==NULL);
-}

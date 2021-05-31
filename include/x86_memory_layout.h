@@ -17,8 +17,8 @@
 #define KERNEL_BASE 0xf0000000
 
 // 内核虚拟地址与实际物理地址的映射
-#define KERNEL_TO_PHY(vaddr) ((vaddr)-KERNEL_BASE)
-#define PHY_TO_KERNEL(paddr) ((paddr) + KERNEL_BASE)
+#define KERNEL_TO_PHY(vaddr) ((unsigned int)(vaddr)-KERNEL_BASE)
+#define PHY_TO_KERNEL(paddr) ((unsigned int)(paddr) + KERNEL_BASE)
 
 /************************************************************
  *	和用户进程共享的空间的内存参数:[USER_TOP,USER_LIMIT,KERNEL_STACK_TOP]
@@ -47,8 +47,8 @@
 #define PT_INDEX_SHIFT 12 // page table的偏移
 
 //虚拟地址中的page directory index和page table index
-#define PD_INDEX(addr) ((addr) >> PD_INDEX_SHIFT)
-#define PT_INDEX(addr) (((addr) >> PT_INDEX_SHIFT) & (0xfffffc00))
+#define PD_INDEX(addr) (((addr) >> PD_INDEX_SHIFT) & 0x3ff)
+#define PT_INDEX(addr) (((addr) >> PT_INDEX_SHIFT) & 0x3ff)
 
 // PDE和PTE中的保存的地址项
 #define PDE(pde) ((pde) & (0xfffff000))

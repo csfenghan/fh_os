@@ -14,7 +14,7 @@
 .global kernel_entry
 
 #计算内核的实际物理地址
-kernel_entry=KERNEL_TO_PHY(kernel_start)
+kernel_entry=kernel_start-KERNEL_BASE
 
 #内核起始
 kernel_start:
@@ -26,14 +26,14 @@ kernel_start:
     orl $CR4_PSE,%eax
     movl %eax,%cr4
 
-    movl $KERNEL_TO_PHY(entry_page_dir),%ebx
+    movl $(entry_page_dir-KERNEL_BASE),%ebx
     
     #将[0,4MB]映射到[0,4MB]，没有写权限,开启超级页
     movl $(0x00|PT_P|PT_PS),%eax
     movl %eax,(%ebx)
 
     #将[KERNEL_BASE,KERNEL_BASE+4MB]映射到[0,4MB]，开启超级页，每个页4MB
-    movl $PD_INDEX(KERNEL_BASE),%edx
+    movl $(PD_INDEX(KERNEL_BASE)),%edx
     leal (%ebx,%edx,4),%ebx
     movl $(0x00|PT_W|PT_P|PT_PS),%eax
     movl %eax,(%ebx)
@@ -42,7 +42,7 @@ kernel_start:
     #加载cr3并开启虚拟内存和写保护
     ################################################
     #加载cr3
-    movl $(KERNEL_TO_PHY(entry_page_dir)),%eax
+    movl $(entry_page_dir-KERNEL_BASE),%eax
     movl %eax,%cr3
 
     #开启虚拟内存与写保护
