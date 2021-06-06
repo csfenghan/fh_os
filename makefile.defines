@@ -10,9 +10,9 @@ OBJCOPY:=objcopy
 #工程目录
 ROOT_DIR:=/home/fenghan/fh_os
 SUB_DIR:=lib\
-		mm\
-		boot\
-		kernel
+	mm\
+	boot\
+	kernel
 
 #运行工具
 QEMU:=qemu-system-x86_64
