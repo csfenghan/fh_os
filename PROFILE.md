@@ -38,20 +38,15 @@
 + 熟悉操作系统原理，实现过简易的操作系统内核:[一个迷你内核的实现](https://github.com/csfenghan/fh_os)
 ps:还需要再完善一下
 
-+ 熟悉Linux环境编程，实现过简易的shell解释器:[miniShell](https://github.com/csfenghan/miniShell)
-ps:还需要再添加一些功能,README做好一点
++ 熟悉Linux环境编程，实现过简易的shell解释器:[miniShell](https://github.com/csfenghan/miniShell)，支持作业控制、多重管道、多重重定位
 
-+ 熟悉TCP/IP协议，熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)
-ps:还需要再完善一下，补全后做一下README
++ 熟悉TCP/IP协议，熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)，及内网穿透工具：[natip](https://github.com/csfenghan/natip)
 
 + 了解计算机组成原理，熟悉ARM体系结构,熟悉程序的链接、运行原理
 
-+ 了解bootloader、Linux内核移植、文件系统制作，了解Linux驱动开发，了解Qt界面开发
++ 了解bootloader、Linux内核移植、文件系统制作，了解Linux驱动开发，了解PCB制作、STM32等单片机开发
 
 ## 实践经历
 
 1. 一种基于视觉的自动避障小车设计：使用固定在室内顶部的摄像头检测小车的位置，小车本身不携带相机。摄像头将视频传输至PC端，使用Yolov3检测小车位置。使用栅格法对环境进行建图，A*算法规划小车路径，PID算法控制小车移动至指定位置。上位机界面使用QT开发。
-
-2. 待完成（加油啊！！）
-
 
