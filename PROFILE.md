@@ -28,15 +28,15 @@
 
 + 熟悉操作系统原理，实现过简易的操作系统内核:[一个迷你内核的实现](https://github.com/csfenghan/fh_os)
 
-+ 熟悉Linux环境编程，实现过简易的shell解释器:[miniShell](https://github.com/csfenghan/miniShell)，支持作业控制、多重管道、多重重定位
++ 熟悉Linux环境编程，实现过shell解释器:[miniShell](https://github.com/csfenghan/miniShell)，支持作业控制、多重管道、多重重定位
 
-+ 熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)，及内网穿透工具：[natip](https://github.com/csfenghan/natip)
++ 熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)，*支持多种数据类型传输*，及内网穿透工具：[natip](https://github.com/csfenghan/natip)，*支持ssh加密*
 
-+ 了解计算机组成原理，熟悉ARM体系结构,熟悉程序的链接、运行原理
++ 熟悉vim、make、cmake、git等软件构建工具，了解计算机组成原理，熟悉ARM体系结构，熟悉程序的链接、运行原理
 
-+ 了解bootloader、Linux内核移植、文件系统制作，了解Linux驱动开发，了解PCB制作、STM32等单片机开发
++ 了解PCB制作、STM32等单片机开发,了解bootloader、Linux内核移植、文件系统制作、Linux驱动开发，
 
-+ 了解机器学习、深度学习算法、图像处理算法等
++ 了解机器学习、深度学习算法、图像处理算法
 
 ---
 
