@@ -26,11 +26,11 @@
 
 + 熟练掌握C语言，熟悉C++、Python，熟悉x86、ARM汇编，熟悉数据结构与算法
 
-+ 熟悉操作系统原理，实现过简易的操作系统内核:[一个迷你内核的实现](https://github.com/csfenghan/fh_os)
++ 熟悉操作系统原理，实现过简易的操作系统内核，支持内存分配、任务管理:[一个迷你内核的实现](https://github.com/csfenghan/fh_os)
 
 + 熟悉Linux环境编程，实现过shell解释器:[miniShell](https://github.com/csfenghan/miniShell)，支持作业控制、多重管道、多重重定位
 
-+ 熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)，*支持多种数据类型传输*，及内网穿透工具：[natip](https://github.com/csfenghan/natip)，*支持ssh加密*
++ 熟悉Socket编程，实现过简易的应用层通信协议：[msop](https://github.com/csfenghan/msop)，*支持多种数据类型传输*，及内网穿透工具：[natip](https://github.com/csfenghan/natip)
 
 + 熟悉vim、make、cmake、git等软件构建工具，了解计算机组成原理，熟悉ARM体系结构，熟悉程序的链接、运行原理
 
@@ -57,10 +57,6 @@
  + 关键技术：直立车软硬件设计，目标检测，避障算法
  + 负责：全部功能实现
 
-4. 基于激光笔的无线鼠标设计
- + 功能：使用激光笔代替鼠标，激光笔的光点即鼠标的位置，用于投影仪控制
- + 关键技术：屏幕位置识别，激光点位置识别，控制软件设计
- + 负责：全部功能实现
 ---
 
 #### 荣誉证书
